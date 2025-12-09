@@ -1,0 +1,236 @@
+{
+  "info": {
+    "name": "Shipment Management API",
+    "description": "Complete API collection for shipment management system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "shipment_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        },
+        "description": "Check if API is running"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Shipments",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/shipments?page=1&limit=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "status",
+              "value": "pending",
+              "disabled": true
+            },
+            {
+              "key": "origin",
+              "value": "Lagos",
+              "disabled": true
+            }
+          ]
+        },
+        "description": "Retrieve all shipments with optional filtering and pagination"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Shipment by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/shipments/{{shipment_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments", "{{shipment_id}}"]
+        },
+        "description": "Get a single shipment by its ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Shipment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    var jsonData = pm.response.json();",
+              "    pm.environment.set('shipment_id', jsonData.data._id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"trackingNumber\": \"TRK{{$randomInt}}\",\n  \"senderName\": \"John Doe\",\n  \"receiverName\": \"Jane Smith\",\n  \"origin\": \"Lagos, Nigeria\",\n  \"destination\": \"Abuja, Nigeria\",\n  \"status\": \"pending\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/shipments",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments"]
+        },
+        "description": "Create a new shipment"
+      },
+      "response": []
+    },
+   
+    {
+      "name": "Update Shipment",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"in_transit\",\n  \"destination\": \"Abuja, FCT Nigeria\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/shipments/{{shipment_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments", "{{shipment_id}}"]
+        },
+        "description": "Update an existing shipment"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Shipment Status to Delivered",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"delivered\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/shipments/{{shipment_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments", "{{shipment_id}}"]
+        },
+        "description": "Mark shipment as delivered"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Shipment",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/shipments/{{shipment_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments", "{{shipment_id}}"]
+        },
+        "description": "Delete a shipment"
+      },
+      "response": []
+    },
+  
+    {
+      "name": "Get Shipment - Invalid ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/shipments/invalid-id",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments", "invalid-id"]
+        },
+        "description": "Test error handling for invalid ID format"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Shipments - Filter by Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/shipments?status=in_transit",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments"],
+          "query": [
+            {
+              "key": "status",
+              "value": "in_transit"
+            }
+          ]
+        },
+        "description": "Filter shipments by status"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Shipments - Filter by Origin",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/shipments?origin=Lagos",
+          "host": ["{{base_url}}"],
+          "path": ["api", "shipments"],
+          "query": [
+            {
+              "key": "origin",
+              "value": "Lagos"
+            }
+          ]
+        },
+        "description": "Filter shipments by origin"
+      },
+      "response": []
+    }
+  ]
+}
