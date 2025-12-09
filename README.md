@@ -1,7 +1,7 @@
 Shipment Management API
 A production-ready RESTful API for managing shipments built with Node.js, Express, and MongoDB.
 🚀 Live Demo
-Base URL: https://shipment-api-jdme.onrender.com/
+Base URL: https://shipment-api-jdme.onrender.com
 📋 Table of Contents
 
 Features
