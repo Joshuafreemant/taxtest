@@ -1,7 +1,7 @@
 Shipment Management API
 A production-ready RESTful API for managing shipments built with Node.js, Express, and MongoDB.
 🚀 Live Demo
-Base URL: https://your-app.onrender.com or https://your-app.railway.app
+Base URL: https://your-app.onrender.com
 📋 Table of Contents
 
 Features
