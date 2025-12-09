@@ -1,4 +1,4 @@
-import Shipment from "../models/shipment.model.js";
+import Shipment, { generateTrackingNumber } from "../models/shipment.model.js";
 // @desc    Get all shipments
 // @route   GET /api/shipments
 // @access  Public
@@ -61,6 +61,11 @@ export const getShipmentById = async (req, res, next) => {
 // @access  Public
 export const createShipment = async (req, res, next) => {
   try {
+    // Auto-generate tracking number if not provided
+    if (!req.body.trackingNumber) {
+      req.body.trackingNumber = generateTrackingNumber();
+    }
+
     const shipment = await Shipment.create(req.body);
 
     res.status(201).json({

@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
+
 const ShipmentSchema = new mongoose.Schema(
   {
-    trackingNumber: {
+      trackingNumber: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
       uppercase: true,
       trim: true,
     },
-   senderName: {
+    senderName: {
       type: String,
       required: true,
       trim: true,
@@ -22,10 +22,12 @@ const ShipmentSchema = new mongoose.Schema(
     origin: {
       type: String,
       required: true,
+      trim: true,
     },
     destination: {
       type: String,
       required: true,
+      trim: true,
     },
     status: {
       type: String,
@@ -37,7 +39,11 @@ const ShipmentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
+// Auto-generate tracking number if not provided
+const generateTrackingNumber = () => {
+  return `TRK${Date.now()}${Math.floor(Math.random() * 1000)}`;
+};
 const Shipment = mongoose.model("Shipment", ShipmentSchema);
 
 export default Shipment;
+export { generateTrackingNumber };
