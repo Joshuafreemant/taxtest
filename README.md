@@ -65,7 +65,7 @@ npm run dev
 
 # Production mode
 npm start
-The API will be running at http://localhost:8000
+The API will be running at https://shipment-api-jdme.onrender.com
 📚 API Documentation
 Base Response Format
 All responses follow this structure:
