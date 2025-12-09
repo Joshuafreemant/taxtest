@@ -9,7 +9,6 @@ const ShipmentSchema = new mongoose.Schema(
       uppercase: true,
       trim: true,
     },
-
    senderName: {
       type: String,
       required: true,

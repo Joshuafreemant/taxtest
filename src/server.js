@@ -11,8 +11,7 @@ dotenv.config();
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+
 
 // Middleware
 app.use(helmet());
@@ -41,10 +40,13 @@ app.use("/api/shipments", shipmentRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8000;
-
-app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  connectDB();
+  
+  const PORT = process.env.PORT || 8000;
+  app.listen(PORT, () => {
+    console.log(`Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`);
+  });
+}
 
 export default app;

@@ -1,16 +1,21 @@
 import request from "supertest";
-import app from "../src/server.js";
 import mongoose from "mongoose";
-import Shipment from "../src/models/Shipment.js";
+import app from "../src/server.js";
+import Shipment from "../src/models/shipment.model.js";
+import { jest } from '@jest/globals';
 
+jest.setTimeout(20000);
 describe("Shipment API Tests", () => {
   let shipmentId;
 
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGODB_URI);
+    // Connect to test database
+    const testDbUri = process.env.MONGODB_URI;
+    await mongoose.connect(testDbUri);
   });
 
   afterAll(async () => {
+    // Clean up and close connection
     await Shipment.deleteMany({});
     await mongoose.connection.close();
   });
@@ -19,8 +24,8 @@ describe("Shipment API Tests", () => {
     it("should create a new shipment", async () => {
       const newShipment = {
         trackingNumber: "TRK123456",
-        sender: "679569133f0412f3c6b7f58b",
-        receive: "679569133f0412f3c6b7f32e",
+        senderName: "John Doe",
+        receiverName: "Jane Smith",
         origin: "Lagos",
         destination: "Abuja",
         status: "pending",
